@@ -1,0 +1,4 @@
+# Install drizzle
+```shell
+npm install --save drizzle
+```
