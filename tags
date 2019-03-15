@@ -4,3 +4,7 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+checkValidServiceWorker	app/src/serviceWorker.js	/^function checkValidServiceWorker(swUrl, config) {$/;"	f
+contracts_build_directory	truffle-config.js	/^  contracts_build_directory: path.join(__dirname, "app\/src\/contracts"),$/;"	p	class:module.exports
+registerValidSW	app/src/serviceWorker.js	/^function registerValidSW(swUrl, config) {$/;"	f
+web3	app/src/drizzleOptions.js	/^  web3: {$/;"	p	class:const
