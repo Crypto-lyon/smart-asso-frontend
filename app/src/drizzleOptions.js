@@ -1,4 +1,4 @@
-import Organization from "../artifacts/Organization.json"
+import Organization from "./artifacts/Organization.json"
 
 const options = {
   web3: {
