@@ -1,13 +1,16 @@
 import React, { Component } from "react";
+
 import {
   ContractData,
   ContractForm,
 } from "drizzle-react-components";
 
+import { Request } from './Request'
+
 import "./App.css";
 
 export class Main extends React.Component   {
-  state = { loading: true, drizzleState: null };
+  state = { loading: true, drizzleState: null, join : false };
   constructor(props, context) {
     super(props);
   }
@@ -34,6 +37,16 @@ export class Main extends React.Component   {
   render() {
     if (this.state.loading) return "Loading Drizzle...";
     const { drizzle } = this.props;
+
+    const hasPending = false;
+    console.log(this.state.drizzleState.transactions)
+    const l = this.state.drizzleState.transactions.length
+    for(let i = 0; i < l; i++) {
+      if(this.state.drizzleState.transactions[i].status === "pending") {
+        hasPending = true;
+      }
+    }
+
     return <div className="App">
       <div className="header">
       <ReadOrga drizzle={this.props.drizzle}
@@ -43,10 +56,14 @@ export class Main extends React.Component   {
             account={this.state.drizzleState.accounts[0]}/>
       <JoinButton drizzle={this.props.drizzle}
             drizzleState={this.state.drizzleState}
-            account={this.state.drizzleState.accounts[0]}/>
+            account={this.state.drizzleState.accounts[0]} onJoin={event => this.setState({join : true})}/>
+        {this.state.join && 
+        <Request drizzle={this.props.drizzle}
+            drizzleState={this.state.drizzleState}/>}
         {/*<ContractForm contract="Organization" method="set" />*/}
       </div>
       <div  className="body">
+      {hasPending && <label>TRANSACTION PENDING...</label>}
       <MembersList drizzle={this.props.drizzle}
             drizzleState={this.state.drizzleState} />
       </div>
@@ -156,12 +173,6 @@ class JoinButton extends React.Component {
     this.setState({ dataKey, dataKey2 });
   }
 
-  join(name, lastname) {
-    const { drizzle, drizzleState } = this.props;
-    const contract = drizzle.contracts.Organization;
-    contract.methods["requestMembership"].cacheSend(name,lastname,{from: drizzleState.accounts[0]});
-  }
-
   render() {
     // get the contract state from drizzleState
     const { Organization } = this.props.drizzleState.contracts;
@@ -176,7 +187,7 @@ class JoinButton extends React.Component {
       if(myString2.value.exists) {
        return <span> (request pending, votes: {myString2.value.acceptedcount})</span>
       } else
-      return <button onClick={event => this.join("Anton", "Possylkine")}>Join?</button>
+      return <button onClick={event => this.props.onJoin()}>Join?</button>
     }
     return null
   }
