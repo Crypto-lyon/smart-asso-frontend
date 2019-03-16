@@ -4,7 +4,7 @@ IPFS (*I*nter*P*lanetary *F*ile *S*ystem) is a distributed versioned filesystem.
 # Install
 ```shell
 wget https://dist.ipfs.io/go-ipfs/v0.4.19/go-ipfs_v0.4.19_linux-amd64.tar.gz
-tar -xvzf go-ipfs.tar.gz && cd go-ipfs
+tar -xvzf go-ipfs_v0.4.19_linux-amd64.tar.gz && cd go-ipfs
 ./install.sh # As root !
 ```
 
@@ -22,5 +22,7 @@ You can also have a nice web interface at [http://localhost:5001/ipfs/QmXc9raDM1
 # Launch
 ![A fucking rocket launch](https://spacenews.com/wp-content/uploads/2018/12/rocketlab-pickering2.jpg)
 ```shell
-cd app && ipfs add -r build/
+cd app && npm run build && ipfs add -r build/
 ```
+
+Open `http://127.0.0.1:8080/ipfs/xxx/index.html` (or `https://ipfs.io/ipfs/xxx/index.html`) where `xxx` is the build folder hash.
