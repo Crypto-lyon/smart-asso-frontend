@@ -44,8 +44,6 @@ export class Main extends React.Component   {
         {/*<ContractForm contract="Organization" method="set" />*/}
       </div>
       <div  className="body">
-      <ReadString method="getMembersCount" drizzle={this.props.drizzle}
-            drizzleState={this.state.drizzleState}/>
       <MembersList drizzle={this.props.drizzle}
             drizzleState={this.state.drizzleState} />
       </div>
@@ -157,16 +155,26 @@ class MembersList extends React.Component {
    // const data = Organization["getOrganizationInfo"][this.state.dataKey];
 
     return <div className="memberslist">
-    <ul>
-      {members.map(member => {
-        return <li key={member.requester}>
-        <label>{member.firstName} {member.lastName} </label>
-        Current membership status : <Status drizzle={this.props.drizzle}
+    <table>
+    <thead>
+        <tr>
+            <th colSpan="1">Firstname</th>
+            <th colSpan="1">Lastname</th>
+            <th colSpan="1">Membership status</th>
+        </tr>
+    </thead>
+    <tbody>
+         {members.map(member => {
+        return <tr key={member.requester}>
+            <td>{member.firstName}</td>
+            <td>{member.lastName}</td>
+            <td><Status drizzle={this.props.drizzle}
             drizzleState={this.props.drizzleState}
-            account={member.requester}/>
-        </li>
-      })}
-    </ul>
+            account={member.requester}/></td>
+        </tr>
+         })}
+    </tbody>
+</table>
     </div>;
   }
 }
