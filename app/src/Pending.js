@@ -30,8 +30,8 @@ export class Pending extends React.Component {
       let votes=[]
       // get the contract state from drizzleState
       const { Organization } = this.props.drizzleState.contracts;
+      console.log(Organization.events)
       Organization.events.map(element => {
-        console.log(element)
         if(element.event === 'NewMembershipRequest')
         votes.push(element.returnValues)
       })
@@ -58,8 +58,7 @@ export class Pending extends React.Component {
               drizzleState={this.props.drizzleState}
               account={vote.requester}/></td>
               <td><Action drizzle={this.props.drizzle}
-              drizzleState={this.props.drizzleState}
-              account={vote.requester}/></td>
+              drizzleState={this.props.drizzleState} account={vote.requester}/></td>
           </tr>
            })}
       </tbody>
@@ -95,17 +94,18 @@ export class Pending extends React.Component {
   }
 
   export class Action extends React.Component {
-    state = { dataKey: null };
+    state = { dataKey: null, dataKey2: null};
   
     componentDidMount() {
-      const { drizzle } = this.props;
+      const { drizzle, drizzleState } = this.props;
       const contract = drizzle.contracts.Organization;
   
       // let drizzle know we want to watch the `myString` method
-      const dataKey = contract.methods["members"].cacheCall(this.props.account);
+      const dataKey = contract.methods["members"].cacheCall(drizzleState.accounts[0]);
+      const dataKey2 = contract.methods["members"].cacheCall(this.props.account);
   
       // save the `dataKey` to local component state for later reference
-      this.setState({ dataKey });
+      this.setState({ dataKey, dataKey2 });
     }
 
     vote(address) {
@@ -120,7 +120,8 @@ export class Pending extends React.Component {
   
       // using the saved `dataKey`, get the variable we're interested in
       const myString = Organization["members"][this.state.dataKey];
-      if(myString && !myString.value[3]) {
+      const myString2 = Organization["members"][this.state.dataKey2];
+      if(myString && myString2 && myString.value[3] && !myString2.value[3]) {
         return <button onClick={event => this.vote(myString.args[0])}>Vote</button>
       } else {
         return null
