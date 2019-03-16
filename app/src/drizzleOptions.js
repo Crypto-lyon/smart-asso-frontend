@@ -10,10 +10,7 @@ const options = {
   },
   contracts: [Organization],
   events: {
-    Organization: ["Organization"],
-  },
-  polls: {
-    accounts: 1500,
+    Organization: [],
   },
 };
 
