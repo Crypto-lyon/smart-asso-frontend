@@ -122,7 +122,7 @@ export class Pending extends React.Component {
       const myString = Organization["members"][this.state.dataKey];
       const myString2 = Organization["members"][this.state.dataKey2];
       if(myString && myString2 && myString.value[3] && !myString2.value[3]) {
-        return <button onClick={event => this.vote(myString.args[0])}>Vote</button>
+        return <button onClick={event => this.vote(this.props.account)}>Vote</button>
       } else {
         return null
       }
