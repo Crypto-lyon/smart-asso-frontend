@@ -18,3 +18,9 @@ ipfs daemon &> ipfs.log & # Does not run in background by default use this or sc
 ipfs swarm peers
 ```
 You can also have a nice web interface at [http://localhost:5001/ipfs/QmXc9raDM1M5G5fpBnVyQ71vR4gbnskwnB9iMEzBuLgvoZ](http://localhost:5001/ipfs/QmXc9raDM1M5G5fpBnVyQ71vR4gbnskwnB9iMEzBuLgvoZ)
+
+# Launch
+![A fucking rocket launch](https://spacenews.com/wp-content/uploads/2018/12/rocketlab-pickering2.jpg)
+```shell
+cd app && ipfs add -r build/
+```
