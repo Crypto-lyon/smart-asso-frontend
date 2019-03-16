@@ -13,7 +13,7 @@ For windows : https://docs.ipfs.io/introduction/install/
 # Initialisation
 ```shell
 ipfs init
-ipfs daemon &> ipfs.log & # Does not run in background by default use it or screen
+ipfs daemon &> ipfs.log & # Does not run in background by default use this or screen
 # Check peers with
 ipfs swarm peers
 ```
