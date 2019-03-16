@@ -3,8 +3,6 @@
   margin: 2rem;
 }
 
-.section {
-  text-align: left;
-  max-width: 720px;
-  margin: 4rem auto auto;
+.header {
+  background: #e8e8e8;
 }

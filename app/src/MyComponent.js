@@ -7,10 +7,10 @@ import {
 export class Main extends React.Component   {
   constructor(props, context) {
     super(props);
+    console.log('plop', context)
 }
 
   render() {
-    console.log(this.props)
     return <div className="App">
     <div className="section">
       <h2>Organization</h2>
