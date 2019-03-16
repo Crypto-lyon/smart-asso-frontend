@@ -41,6 +41,9 @@ export class Main extends React.Component   {
       Current membership status : <Status drizzle={this.props.drizzle}
             drizzleState={this.state.drizzleState}
             account={this.state.drizzleState.accounts[0]}/>
+      <JoinButton drizzle={this.props.drizzle}
+            drizzleState={this.state.drizzleState}
+            account={this.state.drizzleState.accounts[0]}/>
         {/*<ContractForm contract="Organization" method="set" />*/}
       </div>
       <div  className="body">
@@ -138,6 +141,46 @@ class ReadOrga extends React.Component {
   }
 }
 
+class JoinButton extends React.Component {
+  state = { dataKey: null, dataKey2: null };
+
+  componentDidMount() {
+    const { drizzle } = this.props;
+    const contract = drizzle.contracts.Organization;
+
+    // let drizzle know we want to watch the `myString` method
+    const dataKey = contract.methods["members"].cacheCall(this.props.account);
+    const dataKey2 = contract.methods["accessRequests"].cacheCall(this.props.account);
+    
+    // save the `dataKey` to local component state for later reference
+    this.setState({ dataKey, dataKey2 });
+  }
+
+  join(name, lastname) {
+    const { drizzle, drizzleState } = this.props;
+    const contract = drizzle.contracts.Organization;
+    contract.methods["requestMembership"].cacheSend(name,lastname,{from: drizzleState.accounts[0]});
+  }
+
+  render() {
+    // get the contract state from drizzleState
+    const { Organization } = this.props.drizzleState.contracts;
+
+    // using the saved `dataKey`, get the variable we're interested in
+    const myString = Organization["members"][this.state.dataKey];
+    const myString2 = Organization["accessRequests"][this.state.dataKey2];
+    if(!myString || !myString2) {
+      return null
+    }
+    if(!myString.value[3]) {
+      if(myString2.value.exists) {
+       return <span> (request pending, votes: {myString2.value.acceptedcount})</span>
+      } else
+      return <button onClick={event => this.join("Anton", "Possylkine")}>Join?</button>
+    }
+    return null
+  }
+}
 class MembersList extends React.Component {
 
   componentDidMount() {
