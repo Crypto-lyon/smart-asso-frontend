@@ -6,6 +6,7 @@ import {
 } from "drizzle-react-components";
 
 import { Request } from './Request'
+import { Pending, Status } from './Pending'
 
 import "./App.css";
 
@@ -39,7 +40,6 @@ export class Main extends React.Component   {
     const { drizzle } = this.props;
 
     const hasPending = false;
-    console.log(this.state.drizzleState.transactions)
     const l = this.state.drizzleState.transactions.length
     for(let i = 0; i < l; i++) {
       if(this.state.drizzleState.transactions[i].status === "pending") {
@@ -64,8 +64,12 @@ export class Main extends React.Component   {
       </div>
       <div  className="body">
       {hasPending && <label>TRANSACTION PENDING...</label>}
+      <label>Members list</label>
       <MembersList drizzle={this.props.drizzle}
             drizzleState={this.state.drizzleState} />
+      <label>Votes</label>
+      <Pending drizzle={this.props.drizzle}
+            drizzleState={this.state.drizzleState}/>
       </div>
       <div  className="footer">
       
@@ -97,32 +101,6 @@ class ReadString extends React.Component {
 
     // if it exists, then we display its value
     return <p>My stored string: {myString && myString.value}</p>;
-  }
-}
-
-class Status extends React.Component {
-  state = { dataKey: null };
-
-  componentDidMount() {
-    const { drizzle } = this.props;
-    const contract = drizzle.contracts.Organization;
-
-    // let drizzle know we want to watch the `myString` method
-    const dataKey = contract.methods["members"].cacheCall(this.props.account);
-
-    // save the `dataKey` to local component state for later reference
-    this.setState({ dataKey });
-  }
-
-  render() {
-    // get the contract state from drizzleState
-    const { Organization } = this.props.drizzleState.contracts;
-
-    // using the saved `dataKey`, get the variable we're interested in
-    const myString = Organization["members"][this.state.dataKey];
-
-    // if it exists, then we display its value
-    return <span>{myString && myString.value[3]? 'yes' : 'no'}</span>;
   }
 }
 
@@ -202,7 +180,8 @@ class MembersList extends React.Component {
     // get the contract state from drizzleState
     const { Organization } = this.props.drizzleState.contracts;
     Organization.events.map(element => {
-      members.push(element.returnValues)
+      if(element.event === 'NewMemberAccepted')
+        members.push(element.returnValues)
     })
 
     // using the saved `dataKey`, get the variable we're interested in

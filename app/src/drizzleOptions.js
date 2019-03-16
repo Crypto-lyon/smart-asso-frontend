@@ -15,7 +15,13 @@ const options = {
       eventName: "NewMemberAccepted",
       eventOptions: {
         fromBlock: 0,
-      }
+      },
+    },
+    {
+      eventName: "NewMembershipRequest",
+      eventOptions: {
+        fromBlock: 0,
+      },
     }
 ],
   },
