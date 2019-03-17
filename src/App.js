@@ -7,6 +7,7 @@ import {
 
 import { Request } from './Request'
 import { Pending, Status } from './Pending'
+import Header from './Header'
 
 import "./App.css";
 
@@ -35,47 +36,44 @@ export class Main extends React.Component   {
     this.unsubscribe();
   }
 
-  render() {
-    if (this.state.loading) return "Loading Drizzle...";
-    const { drizzle } = this.props;
+    render() {
+        if (this.state.loading) return "Loading Drizzle...";
+        const { drizzle } = this.props;
 
-    const hasPending = false;
-    const l = this.state.drizzleState.transactions.length
-    for(let i = 0; i < l; i++) {
-      if(this.state.drizzleState.transactions[i].status === "pending") {
-        hasPending = true;
-      }
+        const hasPending = false;
+        const l = this.state.drizzleState.transactions.length
+        for(let i = 0; i < l; i++) {
+            if(this.state.drizzleState.transactions[i].status === "pending") {
+                hasPending = true;
+            }
+        }
+
+        return (
+            <div className="App">
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous" />
+                <div className="header">
+                    <Header />
+                </div>
+
+                <ReadOrga drizzle={this.props.drizzle} drizzleState={this.state.drizzleState}/>
+                Current membership status : <Status drizzle={this.props.drizzle} drizzleState={this.state.drizzleState} account={this.state.drizzleState.accounts[0]}/>
+                <JoinButton drizzle={this.props.drizzle} drizzleState={this.state.drizzleState} account={this.state.drizzleState.accounts[0]} onJoin={event => this.setState({join : true})}/>
+                {this.state.join && <Request drizzle={this.props.drizzle} drizzleState={this.state.drizzleState}/>}
+                {/*<ContractForm contract="Organization" method="set" />*/}
+        
+                <div  className="body">
+                    {hasPending && <label>TRANSACTION PENDING...</label>}
+                    <label>Members list</label>
+                    <MembersList drizzle={this.props.drizzle} drizzleState={this.state.drizzleState} />
+                    <label>Votes</label>
+                    <Pending drizzle={this.props.drizzle} drizzleState={this.state.drizzleState}/>
+                </div>
+                <div className="footer">
+
+                </div>
+            </div>
+        );
     }
-
-    return <div className="App">
-      <div className="header">
-      <ReadOrga drizzle={this.props.drizzle}
-            drizzleState={this.state.drizzleState}/>
-      Current membership status : <Status drizzle={this.props.drizzle}
-            drizzleState={this.state.drizzleState}
-            account={this.state.drizzleState.accounts[0]}/>
-      <JoinButton drizzle={this.props.drizzle}
-            drizzleState={this.state.drizzleState}
-            account={this.state.drizzleState.accounts[0]} onJoin={event => this.setState({join : true})}/>
-        {this.state.join && 
-        <Request drizzle={this.props.drizzle}
-            drizzleState={this.state.drizzleState}/>}
-        {/*<ContractForm contract="Organization" method="set" />*/}
-      </div>
-      <div  className="body">
-      {hasPending && <label>TRANSACTION PENDING...</label>}
-      <label>Members list</label>
-      <MembersList drizzle={this.props.drizzle}
-            drizzleState={this.state.drizzleState} />
-      <label>Votes</label>
-      <Pending drizzle={this.props.drizzle}
-            drizzleState={this.state.drizzleState}/>
-      </div>
-      <div  className="footer">
-      
-      </div>
-  </div>;
-  }
 }
 
 class ReadString extends React.Component {
