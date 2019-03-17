@@ -10,7 +10,6 @@ const options = {
   },
   contracts: [Organization],
   events: {
-    
     Organization: [{
       eventName: "NewMemberAccepted",
       eventOptions: {
@@ -22,8 +21,7 @@ const options = {
       eventOptions: {
         fromBlock: 0,
       },
-    }
-],
+    }],
   },
 };
 
