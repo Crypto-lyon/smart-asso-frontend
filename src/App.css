@@ -6,3 +6,11 @@
 .header {
   background: #e8e8e8;
 }
+
+.menuEntry {
+    color: #B2BACA !important;
+}
+
+.menuEntry:hover {
+    color: #EDF3FF !important;
+}

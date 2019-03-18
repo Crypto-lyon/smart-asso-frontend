@@ -4,37 +4,39 @@ import {
   ContractData,
   ContractForm,
 } from "drizzle-react-components";
+import { Route, Switch } from 'react-router-dom';
 
-import { Request } from './Request'
-import { Pending, Status } from './Pending'
-import Header from './Header'
+import { Request } from './Request';
+import { Pending, Status } from './Pending';
+import Header from './components/Header';
+import MemberList from './components/MemberList.js';
+import Home from './components/Home.js';
 
 import "./App.css";
 
 export class Main extends React.Component   {
-  state = { loading: true, drizzleState: null, join : false };
-  constructor(props, context) {
-    super(props);
-  }
+    state = { loading: true, drizzleState: null, join : false };
+    constructor(props, context) {
+        super(props);
+    }
 
-  componentDidMount() {
-    const { drizzle } = this.props; 
-    // subscribe to changes in the store
-    this.unsubscribe = drizzle.store.subscribe(() => {
+    componentDidMount() {
+        const { drizzle } = this.props; 
+        // subscribe to changes in the store
+        this.unsubscribe = drizzle.store.subscribe(() => {
+            // every time the store updates, grab the state from drizzle
+            const drizzleState = drizzle.store.getState();
 
-      // every time the store updates, grab the state from drizzle
-      const drizzleState = drizzle.store.getState();
+            // check to see if it's ready, if so, update local component state
+            if (drizzleState.drizzleStatus.initialized) {
+                this.setState({ loading: false, drizzleState });
+            }
+        });
+    }
 
-      // check to see if it's ready, if so, update local component state
-      if (drizzleState.drizzleStatus.initialized) {
-        this.setState({ loading: false, drizzleState });
-      }
-    });
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
+    componentWillUnmount() {
+        this.unsubscribe();
+    }
 
     render() {
         if (this.state.loading) return "Loading Drizzle...";
@@ -50,16 +52,25 @@ export class Main extends React.Component   {
 
         return (
             <div className="App">
-                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous" />
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossOrigin="anonymous" />
                 <div className="header">
                     <Header />
                 </div>
+                <Switch>
+                    <Route path='/' exact render={() => <Home />} />
+                    <Route path='/members' render={() => <MemberList drizzle={this.props.drizzle} drizzleState={this.state.drizzleState} /> } />         
+                </Switch>
+            </div>
+        );
+    }
+}
 
+/*<Routes />
                 <ReadOrga drizzle={this.props.drizzle} drizzleState={this.state.drizzleState}/>
                 Current membership status : <Status drizzle={this.props.drizzle} drizzleState={this.state.drizzleState} account={this.state.drizzleState.accounts[0]}/>
                 <JoinButton drizzle={this.props.drizzle} drizzleState={this.state.drizzleState} account={this.state.drizzleState.accounts[0]} onJoin={event => this.setState({join : true})}/>
                 {this.state.join && <Request drizzle={this.props.drizzle} drizzleState={this.state.drizzleState}/>}
-                {/*<ContractForm contract="Organization" method="set" />*/}
+                {<ContractForm contract="Organization" method="set" />}
         
                 <div  className="body">
                     {hasPending && <label>TRANSACTION PENDING...</label>}
@@ -70,11 +81,8 @@ export class Main extends React.Component   {
                 </div>
                 <div className="footer">
 
-                </div>
-            </div>
-        );
-    }
-}
+                </div>*/
+
 
 class ReadString extends React.Component {
     state = { dataKey: null };
@@ -169,6 +177,7 @@ class JoinButton extends React.Component {
         return null
     }
 }
+/*
 class MembersList extends React.Component {
 
     componentDidMount() {
@@ -207,7 +216,7 @@ class MembersList extends React.Component {
         </table>
     </div>;
     }
-}
+}*/
 
 class App extends Component {
     render() {

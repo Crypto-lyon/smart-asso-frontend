@@ -1,0 +1,7 @@
+.listDiv {
+    margin-top: 5%;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgb(184, 216, 255);
+}
