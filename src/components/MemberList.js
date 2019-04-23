@@ -25,13 +25,14 @@ class MemberList extends React.Component {
 
         return (
             <div className="row listDiv">
-                <div class="offset-md-3 col-md-6">
+                <div class="offset-md-2 col-md-8">
                     <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th scope="col" colSpan="1">Firstname</th>
                                 <th scope="col" colSpan="1">Lastname</th>
                                 <th scope="col" colSpan="1">Membership status</th>
+                                <th scope="col" colSpan="1">Member Address</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -40,6 +41,7 @@ class MemberList extends React.Component {
                                             <td>{member.firstName}</td>
                                             <td>{member.lastName}</td>
                                             <td><Status drizzle={this.props.drizzle} drizzleState={this.props.drizzleState}account={member.requester}/></td>
+                                            <td>{member.requester}</td>
                                         </tr>
                                 }
                             )}
