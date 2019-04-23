@@ -48,6 +48,10 @@ class MemberList extends React.Component {
                         </tbody>
                     </table>
                 </div>
+                <div class="offset-md-2 col-md-8">
+                    <span>Contract adress : </span>
+                    <a href={`https://ropsten.etherscan.io/address/${this.props.drizzle.contracts.Organization.address}` }>{this.props.drizzle.contracts.Organization.address}</a>
+                </div>
             </div>
         );
     }
